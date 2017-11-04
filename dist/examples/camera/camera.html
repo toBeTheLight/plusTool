@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../../css/common.css"/>
+  <style type="text/css">
+  	video{
+  	  max-height: 100px;
+  	  max-width: 100px;
+  	}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header><span class="back"><</span>示例</header>
+    <main>
+      <button>点击调用摄像头</button>
+    </main>
+  </div>
+  <script src="../../plusTools.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+  	document.querySelector('button').addEventListener('click', function () {
+  	  $plus.sheetActions([
+  	    {
+  	      text: '拍照',
+  	      action: $plus.camera.videoPath.bind(this, function (path, enrty) {
+  	        try{
+  	          var elVideo = document.createElement('video')
+  	          elVideo.autoplay = true
+  	          elVideo.src = path
+  	          document.querySelector('main').appendChild(elVideo)
+  	        }catch(err){
+  	          console.log(err)
+  	        }
+  	      }, null)
+  	    }
+  	  ])
+  	}, false)
+  </script>
+</body>
+</html>

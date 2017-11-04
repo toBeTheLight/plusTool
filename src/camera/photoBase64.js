@@ -1,3 +1,4 @@
+import entryToBase64 from './entryToBase64'
 /**
  * @description 调用摄像头并生成base64编码
  * @name cameraReadAsBase64
@@ -8,20 +9,7 @@ var cameraReadAsBase64 = function (successCB, errorCB) {
   var cmr = plus.camera.getCamera()
   cmr.captureImage(function (p) {
     plus.io.resolveLocalFileSystemURL(p, function (entry) {
-      var reader = null
-      entry.file(function (file) {
-        reader = new plus.io.FileReader()
-        reader.onloadend = function (e) {
-          successCB(e.target.result)
-          plus.nativeUI.closeWaiting()
-          reader.abort()
-        }
-        reader.readAsDataURL(file)
-      }, function (e) {
-        plus.nativeUI.closeWaiting()
-        errorCB && errorCB('失败：' + e.message)
-        reader.abort()
-      })
+      entryToBase64(entry, successCB, errorCB)
     }, function (e) {
       plus.nativeUI.closeWaiting()
       errorCB && errorCB('读取拍照文件错误：' + e.message)

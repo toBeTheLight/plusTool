@@ -15,9 +15,10 @@
       <ul class="list">
       	<li id="open">open</li>
       	<li id="replace">replace</li>
-      	<li></li>
-      	<li></li>
-      	<li></li>
+      </ul>
+      <h2>camera</h2>
+      <ul class="list">
+        <li id="camera">摄像头调用</li>
       </ul>
     </main>
   </div>
@@ -28,6 +29,9 @@
   	}, false)
   	document.querySelector('#replace').addEventListener('click', function () {
       $plus.view.open('./examples/view/replace/replace.html')
+    }, false)
+  	document.querySelector('#camera').addEventListener('click', function () {
+      $plus.view.open('./examples/camera/camera.html')
     }, false)
   </script>
 </body>

@@ -1,7 +1,11 @@
-import base64UrlToFile from './base64UrlToFile'
-import cameraReadAsBase64 from './cameraReadAsBase64'
+import base64ToFile from './base64ToFile'
+import photoBase64 from './photoBase64'
+import videoPath from './videoPath'
+import entryToBase64 from './entryToBase64'
 
 export default {
-  base64UrlToFile,
-  cameraReadAsBase64
+  base64ToFile,
+  photoBase64,
+  videoPath,
+  entryToBase64
 }

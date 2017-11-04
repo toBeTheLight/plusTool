@@ -105,15 +105,21 @@ var view = {
 };
 
 /* harmony default export */ var page = (view);
-// CONCATENATED MODULE: ./src/camera/base64UrlToFile.js
+// CONCATENATED MODULE: ./src/camera/base64ToFile.js
 /**
  * @description base64Url转为blob图片，默认格式'image/png'
  * @name base64UrlToFile
  * @param {string} base64Url
  * @param {function} callback 回调函数，默认参数为图片文件
  */
-function base64UrlToFile(options, successCB, errorCB) {
+function base64UrlToFile(option, successCB, errorCB) {
   try {
+    var options = void 0;
+    if (typeof option === 'string') {
+      options = {
+        data: options
+      };
+    }
     var urlData = options.data;
     var name = options.name || new Date().getTime() + Math.floor(Math.random() * 10000).toString();
     var dataArr = urlData.split(',');
@@ -134,32 +140,40 @@ function base64UrlToFile(options, successCB, errorCB) {
   }
 }
 
-/* harmony default export */ var camera_base64UrlToFile = (base64UrlToFile);
-// CONCATENATED MODULE: ./src/camera/cameraReadAsBase64.js
+/* harmony default export */ var base64ToFile = (base64UrlToFile);
+// CONCATENATED MODULE: ./src/camera/entryToBase64.js
+function entryToBase64(entry, successCB, errorCB) {
+  plus.nativeUI.showWaiting();
+  var reader = null;
+  entry.file(function (file) {
+    reader = new plus.io.FileReader();
+    reader.onloadend = function (e) {
+      successCB(e.target.result);
+      plus.nativeUI.closeWaiting();
+      reader.abort();
+    };
+    reader.readAsDataURL(file);
+  }, function (e) {
+    plus.nativeUI.closeWaiting();
+    errorCB && errorCB('失败：' + e.message);
+    reader.abort();
+  });
+}
+
+/* harmony default export */ var camera_entryToBase64 = (entryToBase64);
+// CONCATENATED MODULE: ./src/camera/photoBase64.js
+
 /**
  * @description 调用摄像头并生成base64编码
  * @name cameraReadAsBase64
  * @param {function} callback 回调函数，默认参数为base64文件
  */
-var cameraReadAsBase64 = function cameraReadAsBase64(successCB, errorCB) {
+var photoBase64_cameraReadAsBase64 = function cameraReadAsBase64(successCB, errorCB) {
   plus.nativeUI.showWaiting();
   var cmr = plus.camera.getCamera();
   cmr.captureImage(function (p) {
     plus.io.resolveLocalFileSystemURL(p, function (entry) {
-      var reader = null;
-      entry.file(function (file) {
-        reader = new plus.io.FileReader();
-        reader.onloadend = function (e) {
-          successCB(e.target.result);
-          plus.nativeUI.closeWaiting();
-          reader.abort();
-        };
-        reader.readAsDataURL(file);
-      }, function (e) {
-        plus.nativeUI.closeWaiting();
-        errorCB && errorCB('失败：' + e.message);
-        reader.abort();
-      });
+      camera_entryToBase64(entry, successCB, errorCB);
     }, function (e) {
       plus.nativeUI.closeWaiting();
       errorCB && errorCB('读取拍照文件错误：' + e.message);
@@ -172,15 +186,76 @@ var cameraReadAsBase64 = function cameraReadAsBase64(successCB, errorCB) {
     index: 1
   });
 };
-/* harmony default export */ var camera_cameraReadAsBase64 = (cameraReadAsBase64);
+/* harmony default export */ var photoBase64 = (photoBase64_cameraReadAsBase64);
+// CONCATENATED MODULE: ./src/camera/videoPath.js
+function videoPath(successCB, errorCB) {
+  console.log(successCB);
+  console.log(errorCB);
+  var cmr = plus.camera.getCamera();
+  plus.nativeUI.showWaiting();
+  cmr.startVideoCapture(function (p) {
+    plus.io.resolveLocalFileSystemURL(p, function (entry) {
+      plus.nativeUI.closeWaiting();
+      successCB(entry.toLocalURL(), entry);
+    }, function (err) {
+      plus.nativeUI.closeWaiting();
+      errorCB && errorCB(err);
+    });
+  }, function (err) {
+    plus.nativeUI.closeWaiting();
+    errorCB && errorCB(err);
+  }, {
+    filename: '_doc/camera/',
+    index: 1
+  });
+}
+
+/* harmony default export */ var camera_videoPath = (videoPath);
 // CONCATENATED MODULE: ./src/camera/index.js
 
 
 
+
+
 /* harmony default export */ var camera = ({
-  base64UrlToFile: camera_base64UrlToFile,
-  cameraReadAsBase64: camera_cameraReadAsBase64
+  base64ToFile: base64ToFile,
+  photoBase64: photoBase64,
+  videoPath: camera_videoPath,
+  entryToBase64: camera_entryToBase64
 });
+// CONCATENATED MODULE: ./src/ui/sheetActions.js
+var sheetActionsPool = [];
+function sheetActions(optionsSheet) {
+  var model = sheetActionsPool.pop();
+  if (model === undefined) {
+    var elWrapper = document.createElement('div');
+    elWrapper.style.width = '100%';
+    elWrapper.style.transform = 'translate3d(0,100%,0)';
+    elWrapper.style.transition = 'all .3s linear';
+    elWrapper.style.position = 'absolute';
+    elWrapper.style.bottom = '0';
+    elWrapper.style.left = '0';
+    elWrapper.style.padding = '20px';
+    elWrapper.style.backgroundColor = '#ccc';
+    elWrapper.addEventListener('click', function () {
+      elWrapper.style.transform = 'translate3d(0,100%,0)';
+    });
+    optionsSheet.forEach(function (element) {
+      var elItem = document.createElement('div');
+      elItem.style.lineHeight = '44px';
+      elItem.innerText = element.text;
+      elItem.style.textAlign = 'center';
+      elItem.addEventListener('click', element.action);
+      elWrapper.appendChild(elItem);
+      setTimeout(function () {
+        elWrapper.style.transform = 'translate3d(0,0,0)';
+      }, 0);
+    }, this);
+    document.documentElement.appendChild(elWrapper);
+  }
+}
+
+/* harmony default export */ var ui_sheetActions = (sheetActions);
 // EXTERNAL MODULE: ./src/event/backButton.js
 var backButton = __webpack_require__(1);
 var backButton_default = /*#__PURE__*/__webpack_require__.n(backButton);
@@ -188,6 +263,8 @@ var backButton_default = /*#__PURE__*/__webpack_require__.n(backButton);
 // CONCATENATED MODULE: ./src/index.js
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "view", function() { return page; });
 /* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "camera", function() { return camera; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "sheetActions", function() { return ui_sheetActions; });
+
 
 
 

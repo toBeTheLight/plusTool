@@ -211,7 +211,8 @@
 				"refer": [
 					"examples/page/open/open.html",
 					"examples/view/open/open.html",
-					"examples/view/replace/replace.html"
+					"examples/view/replace/replace.html",
+					"examples/camera/camera.html"
 				],
 				"priority": 0
 			},
@@ -237,6 +238,14 @@
 				"refer": [
 					"examples/view/replace/target.html"
 				],
+				"priority": 0
+			},
+			"examples/camera/camera.html": {
+				"resources": [
+					"css/common.css",
+					"plusTools.js"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},
