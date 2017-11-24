@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/common/plusTools.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>formdata</h1>
+      </header>
+      <main>
+        <div class="img-wrapper">
+          <img id="img" src="" alt="" />
+        </div>
+        <button id="photo">拍照</button>
+        <button id="submit">提交</button>
+      </main>
+    </div>
+    <script type="text/javascript">
+    	(function () { var script = document.createElement('script'); script.src="http://eruda.liriliri.io/eruda.min.js"; document.body.appendChild(script); script.onload = function () { eruda.init() } })()
+    </script>
+    <script type="text/javascript">
+      var formData = new FormData()
+      alert(formData)
+    	document.querySelector('#submit').addEventListener('click', function () {
+    	  formData.append('json', 'data')
+    	  formData.append('json', 'data')
+    	  formData.append('json', 'data')
+    	  console.log(formData.toString())
+    	}, false)
+    </script>
+  </body>
+</html>
