@@ -1,7 +1,8 @@
-import page from './page'
+import view from './page'
 import camera from './camera'
+import './event/backButton'
 
 export {
-  page,
+  view,
   camera
 }

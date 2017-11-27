@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../../../css/common.css"/>
+</head>
+<body>
+  <div class="page">
+    <header><span class="back"><</span>示例</header>
+    <main>
+      <h2>$plus.view.open</h2>
+      <button id="open">打开目标页</button>
+    </main>
+  </div>
+  <script src="../../../plusTools.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+    document.querySelector('#open').addEventListener('click', function () {
+      $plus.view.open('./target.html')
+    }, false)
+  </script>
+</body>
+</html>

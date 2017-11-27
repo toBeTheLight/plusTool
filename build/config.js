@@ -10,8 +10,8 @@ module.exports = {
   entry: resolve("/src/index.js"),//已多次提及的唯一入口文件
   output: {
     path: resolve("/dist"),//打包后的文件存放的地方
-    filename: "plusTool.js",//打包后输出文件的文件名
-    library: "plusTool",
+    filename: "plusTools.js",//打包后输出文件的文件名
+    library: "$plus",
     libraryTarget: 'umd'
   },
   module: {

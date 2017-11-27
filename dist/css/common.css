@@ -1,0 +1,86 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.page {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.page header {
+  position: relative;
+  -webkit-box-flex: 0;
+  -webkit-flex: none;
+      -ms-flex: none;
+          flex: none;
+  height: 44px;
+  width: 100%;
+  background-color: #1070cf;
+  text-align: center;
+  line-height: 44px;
+  color: #ffffff;
+}
+.page header .back {
+  position: absolute;
+  height: 100%;
+  line-height: inherit;
+  left: 20px;
+}
+.page main {
+  height: 100%;
+}
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  line-height: 44px;
+}
+.list li {
+  line-height: inherit;
+  position: relative;
+  height: 44px;
+}
+.list li:after {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 1px;
+  background: blue;
+  -webkit-transform: scaleY(0.5);
+      -ms-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+}
+button {
+  display: block;
+  height: 44px;
+  padding: 0 10px;
+  line-height: 44px;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  color: #ffffff;
+  background-color: #1070cf;
+  margin: 40px auto;
+}
+button:active {
+  -webkit-transition: background-color 0.5s linear;
+          transition: background-color 0.5s linear;
+  background-color: slateblue;
+}
+/*# sourceMappingURL=common.css.map */

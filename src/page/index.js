@@ -1,4 +1,4 @@
-var page = {
+var view = {
   open (url) {
     plus.nativeUI.showWaiting()
     // var id = /[\\|\/]\.?/
@@ -8,7 +8,7 @@ var page = {
       newPage.show('pop-in', 200)
     }
   },
-  jump (url) {
+  replace (url) {
     plus.nativeUI.showWaiting()
     // var id = /[\\|\/]\.?/
     var newPage = plus.webview.create(url)
@@ -21,4 +21,4 @@ var page = {
   }
 }
 
-export default page
+export default view
