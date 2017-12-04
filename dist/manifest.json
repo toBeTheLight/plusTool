@@ -218,7 +218,8 @@
 			},
 			"examples/view/open/open.html": {
 				"resources": [
-					"css/common.css"
+					"css/common.css",
+					"plusTools.js"
 				],
 				"refer": [
 					"examples/view/open/target.html"
@@ -234,13 +235,23 @@
 				"priority": 0
 			},
 			"examples/view/replace/replace.html": {
-				"resources": [],
+				"resources": [
+					"plusTools.js"
+				],
 				"refer": [
 					"examples/view/replace/target.html"
 				],
 				"priority": 0
 			},
 			"examples/camera/camera.html": {
+				"resources": [
+					"css/common.css",
+					"plusTools.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"examples/view/replace/target.html": {
 				"resources": [
 					"css/common.css",
 					"plusTools.js"

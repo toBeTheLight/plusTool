@@ -11,6 +11,10 @@
   	  max-height: 100px;
   	  max-width: 100px;
   	}
+  	img{
+  	  max-height: 100px;
+      max-width: 100px;
+  	}
   </style>
 </head>
 <body>
@@ -25,7 +29,7 @@
   	document.querySelector('button').addEventListener('click', function () {
   	  $plus.sheetActions([
   	    {
-  	      text: '拍照',
+  	      text: '录像 videoPath',
   	      action: $plus.camera.videoPath.bind(this, function (path, enrty) {
   	        try{
   	          var elVideo = document.createElement('video')
@@ -36,7 +40,19 @@
   	          console.log(err)
   	        }
   	      }, null)
-  	    }
+  	    },
+  	    {
+          text: '照相 photoBase64',
+          action: $plus.camera.photoBase64.bind(this, function (base64) {
+            try{
+              var elImg = document.createElement('img')
+              elImg.src = base64
+              document.querySelector('main').appendChild(elImg)
+            }catch(err){
+              console.log(err)
+            }
+          }, null)
+        }
   	  ])
   	}, false)
   </script>

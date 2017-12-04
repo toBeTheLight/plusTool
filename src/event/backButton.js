@@ -1,8 +1,10 @@
+import { __config } from '../config/config.js'
 (function () {
   document.addEventListener('plusready', function () {
     document.firstQuitTime = 0
     plus.key.addEventListener('backbutton', function () {
       var currentWebview = plus.webview.currentWebview()
+      // 为顶层页面则进入退出应用逻辑
       if (plus.webview.all()[0] === currentWebview) {
         var delatTime = new Date().getTime() - document.firstQuitTime
         if (document.firstQuitTime !== 0 && delatTime <= 2000) {
@@ -14,7 +16,18 @@
           })
         }
       } else {
-        currentWebview.close()
+        // $plus配置，回退相关处理
+        if (__config.__backRule) {
+          if (__config.__backRule.rule()) {
+            currentWebview.close()
+            __config.__beforeBack && __config.__beforeBack()
+          } else {
+            __config.__backRule.action()
+          }
+        } else {
+          currentWebview.close()
+          __config.__beforeBack && __config.__beforeBack()
+        }
       }
     })
   }, false)

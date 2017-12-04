@@ -9,10 +9,13 @@ function sheetActions (optionsSheet) {
     elWrapper.style.position = 'absolute'
     elWrapper.style.bottom = '0'
     elWrapper.style.left = '0'
-    elWrapper.style.padding = '20px'
+    elWrapper.style.padding = '10px'
     elWrapper.style.backgroundColor = '#ccc'
     elWrapper.addEventListener('click', function () {
       elWrapper.style.transform = 'translate3d(0,100%,0)'
+      elWrapper.addEventListener('transitionend', function () {
+        elWrapper.remove()
+      })
     })
     optionsSheet.forEach((element) => {
       let elItem = document.createElement('div')
@@ -21,10 +24,10 @@ function sheetActions (optionsSheet) {
       elItem.style.textAlign = 'center'
       elItem.addEventListener('click', element.action)
       elWrapper.appendChild(elItem)
-      setTimeout(() => {
-        elWrapper.style.transform = 'translate3d(0,0,0)'
-      }, 0)
     }, this)
+    setTimeout(() => {
+      elWrapper.style.transform = 'translate3d(0,0,0)'
+    }, 0)
     document.documentElement.appendChild(elWrapper)
   }
 }

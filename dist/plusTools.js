@@ -80,6 +80,16 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
+// CONCATENATED MODULE: ./src/config/config.js
+var __config = {};
+function config(config) {
+  __config.__beforeBack = config.beforeBack;
+  __config.__backRule = config.backRule;
+}
+
+// CONCATENATED MODULE: ./src/config/index.js
+
+
 // CONCATENATED MODULE: ./src/page/index.js
 var view = {
   open: function open(url) {
@@ -107,10 +117,11 @@ var view = {
 /* harmony default export */ var page = (view);
 // CONCATENATED MODULE: ./src/camera/base64ToFile.js
 /**
- * @description base64Url转为blob图片，默认格式'image/png'
+ * @description base64转为图片，与base64ToBlob相比兼容较差
  * @name base64UrlToFile
- * @param {string} base64Url
- * @param {function} callback 回调函数，默认参数为图片文件
+ * @param {string/object} base64Url或配置对象(data,name)
+ * @param {function} successCB 成功回调，默认参数为图片文件
+ * @param {function} errorCB 失败回调，参数为失败原因
  */
 function base64UrlToFile(option, successCB, errorCB) {
   try {
@@ -142,6 +153,13 @@ function base64UrlToFile(option, successCB, errorCB) {
 
 /* harmony default export */ var base64ToFile = (base64UrlToFile);
 // CONCATENATED MODULE: ./src/camera/entryToBase64.js
+/**
+ * @description plus路径转base64
+ * @name cameraReadAsBase64
+ * @param {function} successCB 成功回调，默认参数为base64
+ * @param {function} errorCB 失败回调，默认参数为失败原因
+ */
+
 function entryToBase64(entry, successCB, errorCB) {
   plus.nativeUI.showWaiting();
   var reader = null;
@@ -166,7 +184,8 @@ function entryToBase64(entry, successCB, errorCB) {
 /**
  * @description 调用摄像头并生成base64编码
  * @name cameraReadAsBase64
- * @param {function} callback 回调函数，默认参数为base64文件
+ * @param {function} successCB 成功回调，默认参数为base64
+ * @param {function} errorCB 失败回调，默认参数为失败原因
  */
 var photoBase64_cameraReadAsBase64 = function cameraReadAsBase64(successCB, errorCB) {
   plus.nativeUI.showWaiting();
@@ -188,6 +207,13 @@ var photoBase64_cameraReadAsBase64 = function cameraReadAsBase64(successCB, erro
 };
 /* harmony default export */ var photoBase64 = (photoBase64_cameraReadAsBase64);
 // CONCATENATED MODULE: ./src/camera/videoPath.js
+/**
+ * @description 调取摄像头录像并返回本地路径(视频文件较大，不推荐转base64预览)
+ * @name cameraReadAsBase64
+ * @param {function} successCB 成功回调，默认参数1.可预览本地路径；2.转文件等plus entry路径
+ * @param {function} errorCB 失败回调，默认参数为失败原因
+ */
+
 function videoPath(successCB, errorCB) {
   console.log(successCB);
   console.log(errorCB);
@@ -235,10 +261,13 @@ function sheetActions(optionsSheet) {
     elWrapper.style.position = 'absolute';
     elWrapper.style.bottom = '0';
     elWrapper.style.left = '0';
-    elWrapper.style.padding = '20px';
+    elWrapper.style.padding = '10px';
     elWrapper.style.backgroundColor = '#ccc';
     elWrapper.addEventListener('click', function () {
       elWrapper.style.transform = 'translate3d(0,100%,0)';
+      elWrapper.addEventListener('transitionend', function () {
+        elWrapper.remove();
+      });
     });
     optionsSheet.forEach(function (element) {
       var elItem = document.createElement('div');
@@ -247,39 +276,23 @@ function sheetActions(optionsSheet) {
       elItem.style.textAlign = 'center';
       elItem.addEventListener('click', element.action);
       elWrapper.appendChild(elItem);
-      setTimeout(function () {
-        elWrapper.style.transform = 'translate3d(0,0,0)';
-      }, 0);
     }, this);
+    setTimeout(function () {
+      elWrapper.style.transform = 'translate3d(0,0,0)';
+    }, 0);
     document.documentElement.appendChild(elWrapper);
   }
 }
 
 /* harmony default export */ var ui_sheetActions = (sheetActions);
-// EXTERNAL MODULE: ./src/event/backButton.js
-var backButton = __webpack_require__(1);
-var backButton_default = /*#__PURE__*/__webpack_require__.n(backButton);
-
-// CONCATENATED MODULE: ./src/index.js
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "view", function() { return page; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "camera", function() { return camera; });
-/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "sheetActions", function() { return ui_sheetActions; });
-
-
-
-
-
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
+// CONCATENATED MODULE: ./src/event/backButton.js
 
 (function () {
   document.addEventListener('plusready', function () {
     document.firstQuitTime = 0;
     plus.key.addEventListener('backbutton', function () {
       var currentWebview = plus.webview.currentWebview();
+      // 为顶层页面则进入退出应用逻辑
       if (plus.webview.all()[0] === currentWebview) {
         var delatTime = new Date().getTime() - document.firstQuitTime;
         if (document.firstQuitTime !== 0 && delatTime <= 2000) {
@@ -291,11 +304,34 @@ var backButton_default = /*#__PURE__*/__webpack_require__.n(backButton);
           });
         }
       } else {
-        currentWebview.close();
+        // $plus配置，回退相关处理
+        if (__config.__backRule) {
+          if (__config.__backRule.rule()) {
+            currentWebview.close();
+            __config.__beforeBack && __config.__beforeBack();
+          } else {
+            __config.__backRule.action();
+          }
+        } else {
+          currentWebview.close();
+          __config.__beforeBack && __config.__beforeBack();
+        }
       }
     });
   }, false);
 })();
+// CONCATENATED MODULE: ./src/index.js
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "view", function() { return page; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "camera", function() { return camera; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "sheetActions", function() { return ui_sheetActions; });
+/* concated harmony reexport */__webpack_require__.d(__webpack_exports__, "config", function() { return config; });
+
+
+
+
+
+
+
 
 /***/ })
 /******/ ]);

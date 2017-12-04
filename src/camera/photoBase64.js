@@ -2,7 +2,8 @@ import entryToBase64 from './entryToBase64'
 /**
  * @description 调用摄像头并生成base64编码
  * @name cameraReadAsBase64
- * @param {function} callback 回调函数，默认参数为base64文件
+ * @param {function} successCB 成功回调，默认参数为base64
+ * @param {function} errorCB 失败回调，默认参数为失败原因
  */
 var cameraReadAsBase64 = function (successCB, errorCB) {
   plus.nativeUI.showWaiting()

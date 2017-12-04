@@ -1,3 +1,10 @@
+/**
+ * @description plus路径转base64
+ * @name cameraReadAsBase64
+ * @param {function} successCB 成功回调，默认参数为base64
+ * @param {function} errorCB 失败回调，默认参数为失败原因
+ */
+
 function entryToBase64 (entry, successCB, errorCB) {
   plus.nativeUI.showWaiting()
   var reader = null
