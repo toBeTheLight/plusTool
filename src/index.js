@@ -1,5 +1,5 @@
 import {config} from './config'
-import view from './page'
+import * as view from './view'
 import camera from './camera'
 import sheetActions from './ui/sheetActions'
 import './event/backButton'
