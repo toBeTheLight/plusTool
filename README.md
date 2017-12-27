@@ -1,13 +1,10 @@
+# start
 
-# webview
+`npm i`
 
-1. getWebviewById(id)
-id为创建或打开webview时的完整路径，如create('../page/new.html?xxx=xxx')
-获取时则写为getWebviewById('../page/new.html?xxx=xxx')
+`npm run build`
 
-2. webview刷新
-不推荐使用url传带可变状态的参数，无法较好完成刷新。
-如 `open('info.html?type=3')`,修改后要显示`type=4`的数据则无法完成
+文件生成在dist/plusTools.js
 
 # api
 
@@ -95,3 +92,16 @@ $plus.view.back()
 * 调取摄像头并返回可预览文件路径和转数据路径
 * successCB成功回调，第一个参数为可预览本地路径，即可使用`<video>`预览，第二个参数为文件路径，可使用其他接收`entry`方法继续处理
 * errorCB失败回调，第一个参数为失败信息对象
+
+
+# 开发心得
+
+## webview
+
+1. getWebviewById(id)
+id为创建或打开webview时的完整路径，如create('../page/new.html?xxx=xxx')
+获取时则写为getWebviewById('../page/new.html?xxx=xxx')
+
+2. webview刷新
+不推荐使用url传带可变状态的参数，无法较好完成刷新。
+如 `open('info.html?type=3')`,修改后要显示`type=4`的数据则无法完成
