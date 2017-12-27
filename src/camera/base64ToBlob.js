@@ -1,17 +1,19 @@
 /**
  * @description base64转为blob图片,与base64ToFile相比兼容较好
- * @name base64UrlToFile
+ * @name base64UrlToBlob
  * @param {string/object} base64Url或配置对象(data)
  * @param {function} successCB 成功回调，默认参数为1.文件；2.文件格式后缀
  * @param {function} errorCB 失败回调，参数为失败原因
  */
-function base64UrlToFile (option, successCB, errorCB) {
+function base64UrlToBlob (option, successCB, errorCB) {
   try {
     let options
     if (typeof option === 'string') {
       options = {
         data: options
       }
+    } else {
+      options = option
     }
     let urlData = options.data
     let dataArr = urlData.split(',')
@@ -32,4 +34,4 @@ function base64UrlToFile (option, successCB, errorCB) {
   }
 }
 
-export default base64UrlToFile
+export default base64UrlToBlob

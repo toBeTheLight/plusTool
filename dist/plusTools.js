@@ -162,6 +162,8 @@ function base64UrlToFile(option, successCB, errorCB) {
       options = {
         data: options
       };
+    } else {
+      options = option;
     }
     var urlData = options.data;
     var name = options.name || new Date().getTime() + Math.floor(Math.random() * 10000).toString();
@@ -184,6 +186,44 @@ function base64UrlToFile(option, successCB, errorCB) {
 }
 
 /* harmony default export */ var base64ToFile = (base64UrlToFile);
+// CONCATENATED MODULE: ./src/camera/base64ToBlob.js
+/**
+ * @description base64转为blob图片,与base64ToFile相比兼容较好
+ * @name base64UrlToBlob
+ * @param {string/object} base64Url或配置对象(data)
+ * @param {function} successCB 成功回调，默认参数为1.文件；2.文件格式后缀
+ * @param {function} errorCB 失败回调，参数为失败原因
+ */
+function base64UrlToBlob(option, successCB, errorCB) {
+  try {
+    var options = void 0;
+    if (typeof option === 'string') {
+      options = {
+        data: options
+      };
+    } else {
+      options = option;
+    }
+    var urlData = options.data;
+    var dataArr = urlData.split(',');
+    var bytes = window.atob(dataArr[1]);
+    var type = dataArr[0].split(';')[0].split(':')[1];
+    var ext = type.split('/')[1];
+    // 处理异常,将ascii码小于0的转换为大于0
+    var ab = new ArrayBuffer(bytes.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < bytes.length; i++) {
+      ia[i] = bytes.charCodeAt(i);
+    }
+    successCB(new Blob([ab], {
+      type: type
+    }), ext);
+  } catch (err) {
+    errorCB && errorCB(err);
+  }
+}
+
+/* harmony default export */ var base64ToBlob = (base64UrlToBlob);
 // CONCATENATED MODULE: ./src/camera/entryToBase64.js
 /**
  * @description plus路径转base64
@@ -275,8 +315,10 @@ function videoPath(successCB, errorCB) {
 
 
 
+
 /* harmony default export */ var camera = ({
   base64ToFile: base64ToFile,
+  base64ToBlob: base64ToBlob,
   photoBase64: photoBase64,
   videoPath: camera_videoPath,
   entryToBase64: camera_entryToBase64

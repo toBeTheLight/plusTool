@@ -12,6 +12,8 @@ function base64UrlToFile (option, successCB, errorCB) {
       options = {
         data: options
       }
+    } else {
+      options = option
     }
     let urlData = options.data
     let name = options.name || (new Date().getTime() + Math.floor(Math.random() * 10000).toString())
